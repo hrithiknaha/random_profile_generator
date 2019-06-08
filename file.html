@@ -1,0 +1,150 @@
+<style>
+/* CSS design originally by @jofpin, tweaked by Colt Steele */
+@import url(https://fonts.googleapis.com/css?family=Raleway|Varela+Round|Coda);
+
+body {
+  background: #ecf0f1;
+  padding: 2.23em;
+}
+
+.title {
+  color: #2c3e50;
+  font-family: "Coda", sans-serif;
+  text-align: center;
+}
+.user-profile {
+  margin: auto;
+	width: 27em; 
+  height: 11em;
+  background: #fff;
+  border-radius: .3em;
+}
+
+.user-profile  #fullname {
+  margin: auto;
+  margin-top: -4.40em;
+  margin-left: 5.80em;
+  color: #16a085;
+  font-size: 1.53em;
+  font-family: "Coda", sans-serif;
+  font-weight: bold;
+}
+
+#username {
+  margin: auto;
+  display: inline-block;
+  margin-left: 10.43em;
+  color: #3498db;
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+
+.user-profile > .description {
+  margin: auto;
+  margin-top: 1.35em;
+  margin-right: 3em;
+  width: 18em;
+  color: #7f8c8d;
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+
+.user-profile > img#avatar {
+	padding: .7em;
+  margin-left: .3em;
+  margin-top: .3em;
+  height: 6.23em;
+  width: 6.23em;
+  border-radius: 18em;
+}
+
+
+.footer {
+	margin: 2em auto;
+	height: 3.70em;
+  background: #16a085;
+  text-align: center;
+  border-radius: 0 0 .3em .3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.1s;
+}
+
+button {
+  color: white;
+  font-family: "Coda", sans-serif;
+  text-align: center;
+  font-size: 20px;
+  background: none;
+  outline: none;
+  border: 0;
+}
+
+.footer:hover {
+  background: #1abc9c;
+}
+</style>
+
+<h1 class="title"> Random User Generator</h1>
+<div class="user-profile">
+	<img id="avatar" src="https://pbs.twimg.com/profile_images/743138182607175680/ZJzktgBk_400x400.jpg" />
+    <div id="fullname">Jon Snow</div>
+  <div id="username">
+  	kingofnorth
+  </div>
+    <div class="description">
+      <div>Email: <span id="email">jon@hotmail.com</span></div>
+      <div>City: <span id="city">Winterfell</span></div>
+  </div>
+  <div class="footer">
+    <button id="btn">Next User!</button>
+ </div>
+</div>
+
+<script>
+
+var btn = document.querySelector("#btn");
+var avatar = document.querySelector("#avatar");
+var fullname = document.querySelector("#fullname");
+var username = document.querySelector("#username");
+var email = document.querySelector("#email");
+var city = document.querySelector("#city");
+
+btn.addEventListener('click', function(){
+    var url = 'https://randomuser.me/api/'
+    fetch(url)
+    .then(function(response){
+        if(!response.ok)
+            throw Error(reponse.status)
+        return response
+    })
+    .then(function(response){
+        return response.json()
+    })
+    .then(function(data){
+        var first_name = (data.results[0].name.first);
+        var last_name = (data.results[0].name.last);
+        var user_name = (data.results[0].login.username);
+        var email_address = (data.results[0].email);
+        var city_loc = (data.results[0].location.city);
+        var img_data = (data.results[0].picture.medium)
+        console.log('Name:' + first_name + ' ' + last_name)
+        console.log('Email:' + email)
+        console.log('Username:' + username)
+        console.log('City:' + city)
+        fullname.innerHTML = (first_name + ' ' + last_name);
+        email.innerHTML = email_address;
+        username.innerHTML = user_name;
+        city.innerHTML = city_loc;
+        avatar.src = img_data
+        
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+})
+
+
+
+</script>
